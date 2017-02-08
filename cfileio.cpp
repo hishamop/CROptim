@@ -5,10 +5,6 @@
 #include <iomanip>
 #include <assert.h>
 
-CFileio::CFileio()
-{
-    //Default ctr.
-}
 
 CFileio::CFileio(std::string szFile, CModel *model)
 {
@@ -52,6 +48,10 @@ CFileio::CFileio(std::string szFile, CModel *model)
                 read_loads();
             }
         }
+
+        read_boundary();
+
+        //set_faces();   // set faces by iterating over elements.
     }
 }
 
@@ -177,9 +177,14 @@ void CFileio::read_elems(std::string upper)
                     temp.push_back(m_model->get_node_ptr_with_count(n[i]));
                 }
 
-
                 cps4 temp_elem(id,temp);
+                for(int i=1;i<5;i++)
+                {
+                    temp_elem.getnode(i)->add_incident_elem_id(id);
+                }
+
                 m_model->add_element(temp_elem);
+
 
                 std::string dummy;
                 std::getline(m_File,dummy);
@@ -207,6 +212,19 @@ void CFileio::read_loads()
 
 }
 
+void CFileio::read_boundary()
+{
+    for(auto &iter:m_model->m_elements)
+    {
+        if(iter.is_boundary())
+        {
+            m_model->add_boundary_element(&iter);
+        }
+    }
 
+}
 
-
+bool CFileio::is_boundary(elem_ptr)
+{
+    return false;
+}

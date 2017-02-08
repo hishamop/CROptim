@@ -4,29 +4,27 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    cmodel.cpp \
     node.cpp \
     element.cpp \
-    nodeset.cpp \
-    cfileio.cpp \
     cps4.cpp \
-    elset.cpp \
-    mapping.cpp \
     boundary.cpp \
-    face.cpp
+    cfileio.cpp \
+    cmodel.cpp \
+    elset.cpp \
+    nodeset.cpp
+
 
 HEADERS += \
-    cmodel.h \
-    cfileio.h \
-    node.h \
+    node.h\
     element.h \
     cps4.h \
-    nodeset.h \
-    elset.h \
-    mapping.h \
-    boundary.h \
     auxil.h \
-    face.h
+    boundary.h \
+    cfileio.h \
+    cmodel.h \
+    elset.h \
+    nodeset.h
+
 DISTFILES += \
     input.in \
 

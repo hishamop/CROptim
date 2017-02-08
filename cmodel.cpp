@@ -11,9 +11,9 @@ void CModel::add_node(node t)    // Add node as push back
     m_nodes.push_back(t);
 }
 
-void CModel::add_element(element t)
+void CModel::add_element(elem_ptr t)
 {
-    m_elements.push_back(t);
+    m_elements.push_back(t*);
 }
 
 void CModel::add_nodeset(nodeset t)
@@ -40,9 +40,7 @@ node_ptr CModel::get_node_ptr(int id)
 node_ptr CModel::get_node_ptr_with_count(int id)
 {
     assert(m_nodes.at(id-1).getindex() == id);      // Make sure that correct node is returned.
-    m_nodes.at(id-1).count_sharing();
     return &m_nodes.at(id-1);
-
 }
 
 elem_ptr CModel::get_elem_ptr(int id)
@@ -65,7 +63,7 @@ elem_ptr CModel::get_elem_ptr(int id)
 void CModel::print_elems() const
 {
     std::cout<<"...............ELEMENTS DATA................\n";
-    for (auto iter:m_elements)
+    for (auto &iter:m_elements)
     {
         iter.print_element();
     }
@@ -81,7 +79,7 @@ void CModel::print_nodes()
     }
 
     std::cout<<".............NODE DATA.................\n";
-    for(auto iter:m_nodes)
+    for(auto &iter:m_nodes)
     {
         iter.printnode();
     }
@@ -95,9 +93,9 @@ void CModel::print_nodeset()
         return;
     }
 
-    for (auto iter=m_nset.begin(); iter != m_nset.end(); iter++)
+    for (auto &iter:m_nset)
     {
-        iter->print_nodeset();
+        iter.print_nodeset();
     }
 }
 
@@ -119,8 +117,32 @@ void CModel::print_elset()
         return;
     }
 
-    for (auto iter:m_elemset)
+    for (auto &iter:m_elemset)
     {
         iter.print_elset();
+    }
+}
+void CModel::add_boundary_element(boundary_ptr elm)
+{
+
+    m_boundary.push_back(*elem);
+}
+
+void CModel::set_boundary()
+{
+    for(auto &iter:m_elements)
+    {
+        if(iter.is_boundary())
+        {
+            switch (iter.get_element_type) {
+            case 1:
+                boundary_cps4 t(&iter);
+                add_boundary_element(t);
+                break;
+            default:
+                break;
+            }
+            add_boundary_element(&iter);
+        }
     }
 }

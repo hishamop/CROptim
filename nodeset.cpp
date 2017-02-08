@@ -19,11 +19,11 @@ void nodeset::print_nodeset()
 {
     std::cout<<"\n.................NSET == "<<m_name<<".....................\n\n";
     int i=1;
-    for(auto iter=m_nset_nodes.begin(); iter != m_nset_nodes.end(); ++iter)
+    for(auto &iter:m_nset_nodes)
     {
         if(i%5==0)
             std::cout<<"\n";
-        std::cout<<(*iter)->getindex()<<"\t";
+        std::cout<<iter->getindex()<<"\t";
         i++;
     }
     std::cout<<"\n\n";

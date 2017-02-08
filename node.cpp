@@ -37,12 +37,14 @@ int node::getindex() const
     return m_id;
 }
 
-void node::count_sharing()
+
+
+std::vector<unsigned int> node::get_shared_elements_id() const
 {
-    m_shared_by+=1;
+    return m_incident_elements;
 }
 
-int node::get_shared_by() const
+void node::add_incident_elem_id(unsigned int  id)
 {
-    return m_shared_by;
+    m_incident_elements.push_back(id);
 }
